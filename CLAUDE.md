@@ -31,12 +31,38 @@
 - **Projects / Works**: 주요 프로젝트 카드 + 상세
 - **Contact**: 이메일, GitHub, LinkedIn 등 링크
 
+## 디자인 시스템
+
+> 세부 규칙은 `DESIGN.md` 참조. 아래는 작업 시 반드시 지켜야 할 핵심 원칙.
+
+### 비주얼 방향
+- **홀로그래픽 파스텔 그라데이션** — 블루(`#a8d8f0`), 핑크(`#f4b8d4`), 라벤더(`#c4a8e8`), 민트(`#a8ecd8`), 골드(`#f9d8a0`) 혼합
+- 배경: `#f0f4ff` 베이스 위에 반투명 컬러 orb/도형을 레이어드
+- 단색 사용 금지 — 항상 그라데이션 또는 mesh gradient 사용
+
+### 타이포그래피
+- Display/Hero: `Dancing Script` (italic) — `var(--font-dancing)`
+- Body/UI: `Geist Sans` — `var(--font-geist-sans)`
+- Label/Mono: `Geist Mono` — `var(--font-geist-mono)`, `tracking-widest uppercase`
+- 큰 타이포에는 `.holographic-text` 클래스 적용 (globals.css 정의됨)
+
+### 컴포넌트 스타일
+- 카드/패널: `.glass` 또는 `.glass-dark` 클래스 사용 (glass morphism)
+- 도형: `rounded-full` 또는 `rounded-3xl` 사용
+- 애니메이션: `.animate-float`, `.animate-drift`, `.animate-drift-slow` (globals.css 정의됨)
+- hover 인터랙션: `hover:scale-105 transition-transform duration-300`
+
+### 색상 사용 원칙
+- 텍스트: `text-[#1a1a2e]` 또는 `/60`, `/40`, `/30` opacity 변형
+- 배경 orb: `opacity-20` ~ `opacity-40` 범위
+- border: `border-white/30` ~ `border-white/40`
+
 ## 작업 가이드
 
 ### 디자인 원칙
-- 시각적 일관성 (컬러, 타이포, 여백) 유지
-- 콘텐츠 가독성 우선 — 화려함보다 명확함
-- 다크 모드 / 라이트 모드 고려 (선택 사항)
+- 시각적 일관성 (컬러, 타이포, 여백) 유지 — DESIGN.md 기준 준수
+- 봄빛 홀로그램 톤: 밝고 가볍고 투명하게
+- 다크 모드 미지원 (라이트 전용)
 
 ### 코드 원칙
 - 시멘틱 HTML 사용 (`<header>`, `<section>`, `<article>` 등)
