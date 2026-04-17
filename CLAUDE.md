@@ -27,7 +27,6 @@
 
 - **Hero / Intro**: 이름, 한 줄 소개, 대표 이미지
 - **About**: 자기소개, 경력, 학력
-- **Skills**: 기술 스택, 도구
 - **Projects / Works**: 주요 프로젝트 카드 + 상세
 - **Contact**: 이메일, GitHub, LinkedIn 등 링크
 

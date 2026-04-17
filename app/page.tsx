@@ -136,10 +136,10 @@ export default function Home() {
           </span>
           <div className="flex flex-col gap-6">
             <a
-              href="mailto:steamedpsy@gmail.com"
+              href="mailto:luvfulsun@gmail.com"
               className="text-3xl md:text-5xl font-light text-[#1a1a2e]/60 hover:text-[#1a1a2e] transition-colors tracking-tight"
             >
-              steamedpsy@gmail.com
+              luvfulsun@gmail.com
             </a>
             <a
               href="https://www.instagram.com/yuayera"
