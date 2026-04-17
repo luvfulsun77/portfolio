@@ -84,31 +84,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills */}
-      <section id="skills" className="py-32 px-8 md:px-16 lg:px-24">
-        <div className="max-w-5xl">
-          <span className="text-xs text-[#1a1a2e]/30 tracking-widest uppercase font-mono mb-16 block">
-            Tools &amp; Skills
-          </span>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { name: "Midjourney", desc: "AI Image Generation", color: "from-sky-200/40 to-blue-100/40" },
-              { name: "Kling", desc: "AI Video Generation", color: "from-pink-200/40 to-purple-100/40" },
-              { name: "TouchDesigner", desc: "Visual Programming", color: "from-emerald-100/40 to-teal-100/40" },
-            ].map((skill) => (
-              <div key={skill.name}
-                className={`glass rounded-3xl p-8 bg-gradient-to-br ${skill.color} group hover:scale-105 transition-transform duration-300`}
-              >
-                <h3 className="text-2xl font-light mb-2 text-[#1a1a2e]/80 group-hover:text-[#1a1a2e] transition-colors">
-                  {skill.name}
-                </h3>
-                <p className="text-sm text-[#1a1a2e]/40 font-mono">{skill.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Works */}
       <section id="works" className="py-32 px-8 md:px-16 lg:px-24">
         <div className="max-w-5xl">
