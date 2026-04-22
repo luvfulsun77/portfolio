@@ -1,0 +1,21 @@
+{
+  "slug": "echos-of-the-self",
+  "title": {
+    "ko": "Echos of the Self",
+    "en": "Echos of the Self"
+  },
+  "year": 2025,
+  "type": "video",
+  "venue": "KBS AI Gallery",
+  "tools": ["Midjourney", "Kling AI", "TouchDesigner"],
+  "statement": {
+    "ko": "나라는 존재는 고정된 실체가 아니라, 감각과 기억과 관계 속에서 끊임없이 형태를 바꾸며 흐르는 존재이다.",
+    "en": "The self is not a fixed entity but a being that continuously reshapes itself, flowing through sensation, memory, and relation."
+  },
+  "thumbnail": "https://i.ytimg.com/vi/ktxNXtMmKew/maxresdefault.jpg",
+  "video": {
+    "youtubeId": "ktxNXtMmKew",
+    "duration": 0,
+    "aspectRatio": "16:9"
+  }
+}

@@ -1,138 +1,200 @@
+import fs from "node:fs";
+import path from "node:path";
+import Link from "next/link";
+import { IntroBackground } from "../components/intro/IntroBackground";
+
+const links = [
+  { href: "/works", label: "WORKS" },
+  { href: "/recognition", label: "RECOGNITION" },
+  { href: "/about", label: "ABOUT" },
+];
+
+// File detection runs at build time (server). Drop intro.mp4 / intro.jpg into
+// /public/intro/ and the next build picks them up automatically.
+function detectIntroAssets() {
+  const dir = path.join(process.cwd(), "public", "intro");
+  const has = (name: string) =>
+    fs.existsSync(path.join(dir, name)) ? `/intro/${name}` : undefined;
+  return {
+    videoSrc: has("intro.mp4"),
+    posterSrc: has("intro.jpg") ?? has("intro.webp") ?? has("intro.png"),
+  };
+}
+
 export default function Home() {
+  const year = new Date().getFullYear();
+  const { videoSrc, posterSrc } = detectIntroAssets();
+
   return (
-    <main className="min-h-screen font-sans relative">
+    <main
+      style={{
+        position: "relative",
+        height: "100dvh",
+        width: "100%",
+        overflow: "hidden",
+        background: "var(--ink-100)",
+        color: "var(--paper)",
+      }}
+    >
+      {/* Background (image / video / solid fallback) */}
+      <IntroBackground videoSrc={videoSrc} posterSrc={posterSrc} />
 
-      {/* Background gradient base */}
-      <div className="fixed inset-0 -z-10" style={{
-        background: "linear-gradient(135deg, #e8f4ff 0%, #f8e8f8 25%, #f0e8ff 50%, #e8f8f4 75%, #fff8e8 100%)"
-      }} />
+      {/* Top scrim — improves logo legibility */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "20vh",
+          background:
+            "linear-gradient(to bottom, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0) 100%)",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
 
-      {/* Floating background shapes */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        {/* Large blue circle */}
-        <div className="animate-drift absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full opacity-40"
-          style={{ background: "radial-gradient(circle, #a8d8f0 0%, transparent 70%)" }} />
-        {/* Pink shape */}
-        <div className="animate-float absolute top-1/4 right-[-100px] w-[400px] h-[400px] rounded-full opacity-30"
-          style={{ background: "radial-gradient(circle, #f4b8d4 0%, transparent 70%)" }} />
-        {/* Purple triangle-like */}
-        <div className="animate-drift-slow absolute bottom-1/3 left-1/4 w-[300px] h-[300px] opacity-25"
+      {/* Bottom scrim — improves label + copyright legibility */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: "40vh",
+          background:
+            "linear-gradient(to top, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0) 100%)",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+
+      {/* Top-left logo */}
+      <Link
+        href="/"
+        style={{
+          position: "absolute",
+          top: 24,
+          left: 24,
+          zIndex: 2,
+          color: "rgba(255,255,255,0.95)",
+        }}
+        className="intro-logo"
+      >
+        <span
+          className="font-display"
           style={{
-            background: "linear-gradient(135deg, #c4a8e8, #f4b8d4)",
-            clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
-            borderRadius: "8px"
-          }} />
-        {/* Mint orb */}
-        <div className="animate-float absolute bottom-0 right-1/4 w-[350px] h-[350px] rounded-full opacity-30"
-          style={{ background: "radial-gradient(circle, #a8ecd8 0%, transparent 70%)", animationDelay: "3s" }} />
-        {/* Gold accent */}
-        <div className="animate-drift absolute top-1/2 left-1/2 w-[200px] h-[200px] rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, #f9d8a0 0%, transparent 70%)" }} />
-        {/* Geometric rectangle */}
-        <div className="animate-spin-slow absolute top-1/3 right-1/3 w-[180px] h-[180px] opacity-10"
-          style={{
-            background: "linear-gradient(45deg, #a8d8f0, #c4a8e8)",
-            transform: "rotate(45deg)"
-          }} />
-        {/* Small circles */}
-        <div className="animate-float absolute top-2/3 left-1/6 w-[120px] h-[120px] rounded-full opacity-25"
-          style={{ background: "radial-gradient(circle, #f4b8d4, #c4a8e8)", animationDelay: "2s" }} />
-        <div className="animate-drift-slow absolute top-1/6 right-1/3 w-[80px] h-[80px] rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, #a8ecd8, #a8d8f0)", animationDelay: "5s" }} />
-      </div>
-
-      {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 px-8 py-5 flex justify-between items-center">
-        <span className="text-xs tracking-widest uppercase font-mono text-[#1a1a2e]/40">
-          Park Sunyoung
+            display: "block",
+            fontSize: "var(--text-sm)",
+            letterSpacing: "0.12em",
+            fontWeight: 500,
+            textTransform: "uppercase",
+          }}
+        >
+          Yu.A.Ye
         </span>
-        <div className="flex gap-8">
-          <a href="#works" className="text-xs tracking-widest uppercase font-mono text-[#1a1a2e]/40 hover:text-[#1a1a2e] transition-colors">Works</a>
-          <a href="#contact" className="text-xs tracking-widest uppercase font-mono text-[#1a1a2e]/40 hover:text-[#1a1a2e] transition-colors">Contact</a>
-        </div>
+        <span
+          style={{
+            display: "block",
+            fontSize: "var(--text-xs)",
+            color: "rgba(255,255,255,0.7)",
+            letterSpacing: "0.04em",
+            marginTop: 2,
+          }}
+        >
+          유어예
+        </span>
+      </Link>
+
+      {/* Bottom labels */}
+      <nav
+        aria-label="주요 섹션"
+        className="intro-labels"
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 56,
+          zIndex: 2,
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        {links.map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="intro-label font-display"
+            style={{
+              padding: "12px",
+              color: "rgba(255,255,255,0.9)",
+              textTransform: "uppercase",
+              fontWeight: 500,
+              fontSize: "var(--text-lg)",
+              letterSpacing: "0.16em",
+              position: "relative",
+              transition: "color var(--dur-fast) linear",
+            }}
+          >
+            {l.label}
+          </Link>
+        ))}
       </nav>
 
-      {/* Hero */}
-      <section className="min-h-screen flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-24">
-        <div className="max-w-5xl">
-          {/* Script accent */}
-          <p
-            className="text-2xl md:text-3xl mb-4 text-[#1a1a2e]/40"
-            style={{ fontFamily: "var(--font-dancing)", fontStyle: "italic" }}
-          >
-            hello, I&apos;m
-          </p>
+      {/* Copyright */}
+      <p
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 20,
+          zIndex: 2,
+          textAlign: "center",
+          fontSize: "var(--text-xs)",
+          color: "rgba(255,255,255,0.6)",
+          letterSpacing: "0.04em",
+          margin: 0,
+        }}
+      >
+        © {year} Yu.A.Ye
+      </p>
 
-          {/* Name — holographic */}
-          <h1 className="holographic-text text-7xl md:text-9xl lg:text-[11rem] font-light leading-none tracking-tight mb-8">
-            Park<br />Sunyoung
-          </h1>
-
-          {/* Quote — glass pill */}
-          <div className="inline-block glass rounded-full px-6 py-3 mt-4">
-            <p
-              className="text-base md:text-lg text-[#1a1a2e]/70 italic"
-              style={{ fontFamily: "var(--font-dancing)" }}
-            >
-              &ldquo;I believe that divinity dwells in all things&rdquo;
-            </p>
-          </div>
-        </div>
-
-        <div className="absolute bottom-12 left-8 md:left-16 lg:left-24">
-          <span className="text-xs text-[#1a1a2e]/30 tracking-widest uppercase font-mono">↓ Scroll</span>
-        </div>
-      </section>
-
-      {/* Works */}
-      <section id="works" className="py-32 px-8 md:px-16 lg:px-24">
-        <div className="max-w-5xl">
-          <span className="text-xs text-[#1a1a2e]/30 tracking-widest uppercase font-mono mb-16 block">
-            Works
-          </span>
-          <div className="glass rounded-3xl p-10 md:p-16 group hover:scale-[1.01] transition-transform duration-500 cursor-pointer"
-            style={{ background: "linear-gradient(135deg, rgba(168,216,240,0.2), rgba(244,184,212,0.2), rgba(196,168,232,0.2))" }}
-          >
-            <span className="text-xs text-[#1a1a2e]/30 tracking-widest uppercase font-mono mb-6 block">Visual</span>
-            <h3
-              className="holographic-text text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-tight"
-            >
-              looping<br />in the box
-            </h3>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="py-32 px-8 md:px-16 lg:px-24">
-        <div className="max-w-5xl">
-          <span className="text-xs text-[#1a1a2e]/30 tracking-widest uppercase font-mono mb-16 block">
-            Contact
-          </span>
-          <div className="flex flex-col gap-6">
-            <a
-              href="mailto:luvfulsun@gmail.com"
-              className="text-3xl md:text-5xl font-light text-[#1a1a2e]/60 hover:text-[#1a1a2e] transition-colors tracking-tight"
-            >
-              luvfulsun@gmail.com
-            </a>
-            <a
-              href="https://www.instagram.com/yuayera"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xl md:text-2xl font-light text-[#1a1a2e]/40 hover:text-[#1a1a2e] transition-colors tracking-tight font-mono"
-            >
-              @yuayera
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 px-8 md:px-16 lg:px-24 border-t border-[#1a1a2e]/10">
-        <p className="text-xs text-[#1a1a2e]/20 font-mono">© 2025 Park Sunyoung</p>
-      </footer>
-
+      <style>{`
+        .intro-labels { gap: 32px; }
+        @media (min-width: 768px) {
+          .intro-labels { gap: 48px; }
+          .intro-label { font-size: var(--text-xl) !important; }
+        }
+        @media (min-width: 1280px) {
+          .intro-labels { gap: 64px; }
+        }
+        .intro-label::after {
+          content: "";
+          position: absolute;
+          left: 12px;
+          right: 12px;
+          bottom: 6px;
+          height: 1px;
+          background: rgba(255,255,255,0.95);
+          transform: scaleX(0);
+          transform-origin: left center;
+          transition: transform var(--dur-base) var(--ease-out);
+        }
+        .intro-label:hover,
+        .intro-label:focus-visible {
+          color: var(--paper) !important;
+        }
+        .intro-label:hover::after,
+        .intro-label:focus-visible::after {
+          transform: scaleX(1);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .intro-label::after { transition: none; }
+        }
+      `}</style>
     </main>
   );
 }

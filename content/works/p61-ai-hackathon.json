@@ -1,0 +1,21 @@
+{
+  "slug": "p61-ai-hackathon",
+  "title": {
+    "ko": "토탈미술관 P61 AI 해커톤",
+    "en": "Total Museum P61 AI Hackathon"
+  },
+  "year": 2026,
+  "type": "video",
+  "venue": "Total Museum · Berlin Edition",
+  "tools": ["Midjourney", "Kling AI", "TouchDesigner"],
+  "statement": {
+    "ko": "어떤 전시는 끝난 뒤에도 사라지지 않고, 다른 장소에서 다른 방식으로 다시 호흡한다.\n《Breathing with the Chaos: Berlin Edition》은 그러한 호흡이 서울 토탈미술관에서 베를린으로 이어지며, 아야코 록카쿠의 감각이 새로운 이미지와 리듬으로 확장되는 자리다.\n\n록카쿠의 회화는 손에서 출발한다. 붓보다 먼저 닿는 손가락, 계획보다 앞서는 몸의 충동, 형상보다 먼저 번져가는 색의 흐름은 그의 작업을 단순한 그림이 아니라 감각의 움직임으로 만든다.\n\n토탈미술관에서 펼쳐졌던 그 감각은 창과 스크린, 회화와 조각, 현실의 풍경과 미래를 향한 영상 사이를 오가며 확장되었고, 이제 디지털 공간 안에서 또 다른 방식으로 이어진다.",
+    "en": "Some exhibitions do not disappear when they end — they breathe again, in another place, in another way.\n《Breathing with the Chaos: Berlin Edition》 is such a breath, carried from Seoul's Total Museum to Berlin, where Ayako Rokkaku's sensibility expands into new images and rhythms.\n\nRokkaku's paintings begin from the hand. The fingers that reach before the brush, the body's impulse that arrives before any plan, the flow of color that spreads before form itself — these turn her work into not mere painting, but the movement of sensation.\n\nThat sensibility, unfolded at Total Museum, moved between window and screen, painting and sculpture, the landscapes of the present and the images of a future to come. Now it continues in yet another way, within a digital space."
+  },
+  "thumbnail": "https://i.ytimg.com/vi/X1VHoLKsTgA/maxresdefault.jpg",
+  "video": {
+    "youtubeId": "X1VHoLKsTgA",
+    "duration": 0,
+    "aspectRatio": "16:9"
+  }
+}

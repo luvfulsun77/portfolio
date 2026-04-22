@@ -1,0 +1,21 @@
+{
+  "slug": "seoul-canvas-winter",
+  "title": {
+    "ko": "서울의 사계",
+    "en": "Four Seasons of Seoul"
+  },
+  "year": 2025,
+  "type": "media-facade",
+  "venue": "서울로 미디어캔버스",
+  "tools": ["Midjourney", "Kling AI", "TouchDesigner"],
+  "statement": {
+    "ko": "이 작품은 서울의 사계절을 따라 한 사람의 인생을 그린 애니메이션이다.\n계절의 변화 속에서 인생의 순간들이 서울의 풍경과 함께 영화처럼 펼쳐진다.",
+    "en": "An animation that traces one person's life through the four seasons of Seoul.\nAmid the turning of the seasons, the moments of a life unfold like a film, alongside the landscapes of the city."
+  },
+  "thumbnail": "https://i.ytimg.com/vi/VmYNR79CrsU/maxresdefault.jpg",
+  "video": {
+    "youtubeId": "VmYNR79CrsU",
+    "duration": 0,
+    "aspectRatio": "16:9"
+  }
+}

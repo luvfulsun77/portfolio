@@ -1,26 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Dancing_Script } from "next/font/google";
+import { Inter_Tight } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const dancingScript = Dancing_Script({
-  variable: "--font-dancing",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Park Sunyoung",
-  description: "I believe that divinity dwells in all things",
+  metadataBase: new URL("https://www.yuayera.com"),
+  title: { default: "Yu.A.Ye", template: "%s — Yu.A.Ye" },
+  description:
+    "유어예 (遊於藝) — 예술에서 놀다. 색동·오방색·자개의 감각을 생성형 AI와 잇는 미디어 아티스트.",
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    alternateLocale: "en_US",
+    siteName: "Yu.A.Ye",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({
@@ -29,11 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ko"
-      className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}
-    >
-      <body className="text-[#1a1a2e]">{children}</body>
+    <html lang="ko" className={interTight.variable}>
+      <body>{children}</body>
     </html>
   );
 }

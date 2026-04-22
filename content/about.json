@@ -1,0 +1,116 @@
+{
+  "portrait": "",
+  "hanja": "遊 於 藝",
+  "tagline": {
+    "ko": "예술에서 놀다",
+    "en": "Playing in Art"
+  },
+  "statement": {
+    "ko": "색동의 유희, 오방색의 깊이, 자개의 은은한 광택을 통해 인간과 자연, 기술이 하나로 흐르는 일체성을 표현한다.\n\n알고리즘 안에도, 데이터의 흐름 안에도, 화면이 내뿜는 빛 안에도 신성은 깃들어 있다. 기술은 자연의 또 다른 얼굴이며, 코드는 또 하나의 기도문이다.\n\n나의 작업에서 색은 조용한 기도가 되고, 빛은 기억으로 남는다.\n\n전통적 감각을 현대의 시각 언어로 번역하며, 일상 속에 숨겨진 신성을 드러낸다.",
+    "en": "“I believe that divinity dwells in all things.”\n\nThrough the playfulness of saekdong, the depth of obangsaek (the five Korean cardinal colors), and the quiet luster of najeon (mother-of-pearl), I express the oneness flowing through humans, nature, and technology.\n\nDivinity dwells within algorithms, within the flow of data, within the light cast by screens. Technology is another face of nature; code is another form of prayer.\n\nIn my work, color becomes a silent prayer, and light remains as memory. Translating traditional sensibilities into a contemporary visual language, I reveal the divinity hidden in the everyday."
+  },
+  "bio": {
+    "ko": "본명 박선영. 연세대학교 영어영문학과를 졸업한 뒤 LG, 우리, 하나 등에서 전략기획·마케팅 업무를 담당했다. 이후 건국대학교 실감 AX 대학원에서 미디어 아트를 공부하며, AI를 도구로 한국 전통 색채와 현대 기술을 잇는 작업을 이어가고 있다.",
+    "en": "Born Park Sunyoung. After graduating from Yonsei University (English Language & Literature), she worked in strategic planning and marketing at LG, Woori, and Hana. She later studied media art at Konkuk University Graduate School of Immersive AX, and now works as an AI media artist bridging Korean traditional color and contemporary technology."
+  },
+  "cv": {
+    "education": [
+      {
+        "year": 2024,
+        "title": "건국대학교 실감 AX 대학원",
+        "note": "Konkuk University · Graduate School of Immersive AX"
+      },
+      {
+        "year": 0,
+        "title": "연세대학교 영어영문학과",
+        "note": "Yonsei University · English Language & Literature"
+      }
+    ],
+    "experience": [
+      {
+        "year": 0,
+        "title": "LG",
+        "venue": "전략기획팀, IR팀"
+      },
+      {
+        "year": 0,
+        "title": "우리",
+        "venue": "VIP 마케팅팀"
+      },
+      {
+        "year": 0,
+        "title": "하나",
+        "venue": "전략기획팀"
+      }
+    ],
+    "soloExhibitions": [
+      {
+        "year": 2025,
+        "title": "Echos of the Self",
+        "venue": "유어예 개인전"
+      }
+    ],
+    "groupExhibitions": [
+      {
+        "year": 2025,
+        "title": "You and AI",
+        "venue": "강원디자인협회 & 한국크리에이티브협회, 강원"
+      },
+      {
+        "year": 2025,
+        "title": "I & AI 나를 만나다",
+        "venue": "KBS, 서울"
+      },
+      {
+        "year": 2025,
+        "title": "AI 꿈을 그리다",
+        "venue": "중앙아트센터, 서울"
+      },
+      {
+        "year": 2025,
+        "title": "I am Insa Artfair",
+        "venue": "인사 센트럴 뮤지엄, 서울"
+      },
+      {
+        "year": 2025,
+        "title": "한 여름밤의 꿈",
+        "venue": "용산위플갤러리"
+      },
+      {
+        "year": 2025,
+        "title": "헤쳐모여",
+        "venue": "Living Gallery, 뉴욕, 미국"
+      },
+      {
+        "year": 2025,
+        "title": "한옥에서 만나는 겨울동화전",
+        "venue": "리수갤러리, 서울"
+      },
+      {
+        "year": 2025,
+        "title": "평화로 세계와 잇기",
+        "venue": "부산디자인협회 국제 초대전"
+      },
+      {
+        "year": 2025,
+        "title": "Solitice",
+        "venue": "34 Gallery"
+      },
+      {
+        "year": 2025,
+        "title": "한국적 프로젝트",
+        "venue": "아트코리아랩, 서울"
+      },
+      {
+        "year": 2025,
+        "title": "2025 서울아트쇼",
+        "venue": "서울"
+      }
+    ],
+    "publications": []
+  },
+  "contact": {
+    "email": "luvfulsun@gmail.com",
+    "instagram": "@yuayera"
+  }
+}

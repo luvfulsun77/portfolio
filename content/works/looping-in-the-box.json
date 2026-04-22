@@ -1,0 +1,21 @@
+{
+  "slug": "looping-in-the-box",
+  "title": {
+    "ko": "Looping in the Box",
+    "en": "Looping in the Box"
+  },
+  "year": 2025,
+  "type": "video",
+  "venue": "유어예 개인전 《Echos of the Self》",
+  "tools": ["Midjourney", "Kling AI", "TouchDesigner"],
+  "statement": {
+    "ko": "한때 나는 바다였다. 고래였고, 나비였고, 그리고 꽃이었다.\n\n그대는, 누구인가?",
+    "en": "Once, I was the sea. A whale, a butterfly, then a flower.\n\nAnd you, who are you?"
+  },
+  "thumbnail": "https://i.ytimg.com/vi/MaNXKLnK-x8/maxresdefault.jpg",
+  "video": {
+    "youtubeId": "MaNXKLnK-x8",
+    "duration": 0,
+    "aspectRatio": "16:9"
+  }
+}

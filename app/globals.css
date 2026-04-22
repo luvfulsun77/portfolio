@@ -1,74 +1,160 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 @import "tailwindcss";
 
 :root {
-  --background: #f0f4ff;
-  --foreground: #1a1a2e;
+  /* Ink + paper */
+  --ink-100: #0a0a0a;
+  --ink-60: #525252;
+  --ink-30: #a3a3a3;
+  --paper: #fafaf7;
+  --paper-pure: #ffffff;
+
+  /* Najeon accents — used only in momentary hover/focus transitions */
+  --najeon-teal: #3fa7b8;
+  --najeon-violet: #8b7ab8;
+  --najeon-amber: #c9a961;
+
+  /* Type scale — Major Third 1.250 */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 25px;
+  --text-2xl: 32px;
+  --text-3xl: 44px;
+  --text-4xl: 64px;
+  --text-5xl: 88px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+  --dur-hero: 1200ms;
+
+  /* Korean-first stack. Pretendard covers 한글+라틴. Inter Tight for display. */
+  --font-sans: "Pretendard Variable", "Inter Tight", -apple-system,
+    BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui,
+    sans-serif;
+  --font-display: "Inter Tight", "Pretendard Variable", -apple-system,
+    system-ui, sans-serif;
+  --font-serif: "Noto Serif KR", ui-serif, Georgia, serif;
+
+  /* Layout — responsive defaults set below via media queries */
+  --gutter: 20px;
+  --page-pad-y: 64px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 32px;
+    --page-pad-y: 80px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 48px;
+    --page-pad-y: 96px;
+  }
+}
+
+[data-theme="dark"] {
+  --paper: #0a0a0a;
+  --ink-100: #fafaf7;
+  --ink-60: #a3a3a3;
+  --ink-30: #525252;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-pure: var(--paper-pure);
+  --color-ink-100: var(--ink-100);
+  --color-ink-60: var(--ink-60);
+  --color-ink-30: var(--ink-30);
+  --color-najeon-teal: var(--najeon-teal);
+  --color-najeon-violet: var(--najeon-violet);
+  --color-najeon-amber: var(--najeon-amber);
+
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  overflow-x: hidden;
+* {
+  border-radius: 0;
 }
 
 html {
-  scroll-behavior: smooth;
+  background: var(--paper);
+  color: var(--ink-100);
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33% { transform: translateY(-20px) rotate(2deg); }
-  66% { transform: translateY(-10px) rotate(-1deg); }
+body {
+  background: var(--paper);
+  color: var(--ink-100);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  letter-spacing: -0.01em;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-@keyframes drift {
-  0%, 100% { transform: translateX(0px) translateY(0px); }
-  25% { transform: translateX(15px) translateY(-10px); }
-  50% { transform: translateX(-10px) translateY(-20px); }
-  75% { transform: translateX(-15px) translateY(5px); }
+::selection {
+  background: var(--ink-100);
+  color: var(--paper);
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+:focus-visible {
+  outline: 2px solid var(--najeon-teal);
+  outline-offset: 4px;
 }
 
-.animate-float { animation: float 8s ease-in-out infinite; }
-.animate-drift { animation: drift 12s ease-in-out infinite; }
-.animate-drift-slow { animation: drift 18s ease-in-out infinite reverse; }
-.animate-spin-slow { animation: spin-slow 30s linear infinite; }
-
-.holographic-text {
-  background: linear-gradient(135deg, #a8d8f0, #f4b8d4, #c4a8e8, #a8ecd8, #f9d8a0, #a8d8f0);
-  background-size: 300% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 6s linear infinite;
+/* Najeon shimmer — a single pass on hover for intro labels */
+@keyframes najeon-shimmer {
+  0%,
+  100% {
+    color: var(--ink-100);
+  }
+  33% {
+    color: var(--najeon-teal);
+  }
+  66% {
+    color: var(--najeon-violet);
+  }
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+.shimmer-on-hover:hover {
+  animation: najeon-shimmer 1.2s var(--ease-in-out);
 }
 
-.glass-dark {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+/* WorkCard hover — subtle thumbnail zoom (DESIGN.md §5.1) */
+.work-card__media img {
+  transition: transform var(--dur-hero) var(--ease-out);
+}
+.work-card:hover .work-card__media img,
+.work-card:focus-visible .work-card__media img {
+  transform: scale(1.015);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .shimmer-on-hover:hover {
+    animation: none;
+  }
 }
