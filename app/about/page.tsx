@@ -4,16 +4,14 @@ import { Container, PageShell } from "../../components/layout/PageShell";
 import { getAbout } from "../../lib/content";
 import type { CVItem } from "../../lib/types";
 
-const about = getAbout();
-
 export const metadata = {
   title: "About",
   description:
-    about.bio.ko ||
     "Yu.A.Ye 소개 — Artist statement, biography, CV, contact.",
 };
 
 export default function AboutPage() {
+  const about = getAbout();
   return (
     <PageShell>
       <Container>
