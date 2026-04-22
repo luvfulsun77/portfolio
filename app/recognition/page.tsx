@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageShell, Container } from "../../components/layout/PageShell";
 import { FilterBar, type FilterOption } from "../../components/filter/FilterBar";
+import { withBasePath } from "../../lib/base-path";
 import { getAllRecognitions } from "../../lib/content";
 import type { Recognition, RecognitionCategory } from "../../lib/types";
 
@@ -166,7 +167,7 @@ function RecognitionRow({ r }: { r: Recognition }) {
 
       {r.image ? (
         <Image
-          src={r.image}
+          src={withBasePath(r.image)}
           alt=""
           width={60}
           height={60}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container, PageShell } from "../../components/layout/PageShell";
+import { withBasePath } from "../../lib/base-path";
 import { getAbout } from "../../lib/content";
 import type { CVItem } from "../../lib/types";
 
@@ -42,7 +43,7 @@ export default function AboutPage() {
         {about.portrait ? (
           <div style={{ marginBottom: 64 }}>
             <Image
-              src={about.portrait}
+              src={withBasePath(about.portrait)}
               alt="Yu.A.Ye 작가 프로필"
               width={240}
               height={240}

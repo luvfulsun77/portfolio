@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "../../../components/layout/PageShell";
 import { YouTubeEmbed } from "../../../components/media/YouTubeEmbed";
 import { WorkNav } from "../../../components/work-detail/WorkNav";
+import { withBasePath } from "../../../lib/base-path";
 import {
   getAllRecognitions,
   getAllWorks,
@@ -179,7 +180,7 @@ export default async function WorkDetailPage({
             {work.images.map((img, i) => (
               <figure key={img.src + i} style={{ margin: 0 }}>
                 <Image
-                  src={img.src}
+                  src={withBasePath(img.src)}
                   alt={img.caption ?? ""}
                   width={1440}
                   height={960}
@@ -324,7 +325,7 @@ function HeroImage({ work }: { work: Work }) {
   return (
     <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 9" }}>
       <Image
-        src={work.thumbnail}
+        src={withBasePath(work.thumbnail)}
         alt={work.title.ko}
         fill
         priority

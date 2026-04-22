@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { withBasePath } from "../../lib/base-path";
 import type { Work, WorkType } from "../../lib/types";
 
 const TYPE_LABEL: Record<WorkType, string> = {
@@ -42,7 +43,7 @@ export function WorkCard({ work }: { work: Work }) {
         }}
       >
         <Image
-          src={work.thumbnail}
+          src={withBasePath(work.thumbnail)}
           alt=""
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
