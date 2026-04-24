@@ -1,5 +1,5 @@
 {
-  "portrait": "",
+  "portrait": "/about/portrait.webp",
   "hanja": "遊 於 藝",
   "tagline": {
     "ko": "예술에서 놀다",
@@ -10,8 +10,8 @@
     "en": "“I believe that divinity dwells in all things.”\n\nThrough the playfulness of saekdong, the depth of obangsaek (the five Korean cardinal colors), and the quiet luster of najeon (mother-of-pearl), I express the oneness flowing through humans, nature, and technology.\n\nDivinity dwells within algorithms, within the flow of data, within the light cast by screens. Technology is another face of nature; code is another form of prayer.\n\nIn my work, color becomes a silent prayer, and light remains as memory. Translating traditional sensibilities into a contemporary visual language, I reveal the divinity hidden in the everyday."
   },
   "bio": {
-    "ko": "본명 박선영. 연세대학교 영어영문학과를 졸업한 뒤 LG, 우리, 하나 등에서 전략기획·마케팅 업무를 담당했다. 이후 건국대학교 실감 AX 대학원에서 미디어 아트를 공부하며, AI를 도구로 한국 전통 색채와 현대 기술을 잇는 작업을 이어가고 있다.",
-    "en": "Born Park Sunyoung. After graduating from Yonsei University (English Language & Literature), she worked in strategic planning and marketing at LG, Woori, and Hana. She later studied media art at Konkuk University Graduate School of Immersive AX, and now works as an AI media artist bridging Korean traditional color and contemporary technology."
+    "ko": "박선영. 연세대학교 영어영문학과를 졸업한 뒤 LG, 우리, 하나 등에서 전략기획·마케팅 업무를 담당했다. 이후 건국대학교 실감 AX 대학원에서 미디어 아트를 공부하며, AI를 도구로 한국 전통 색채와 현대 기술을 잇는 작업을 이어가고 있다.",
+    "en": "Park Sunyoung. After graduating from Yonsei University (English Language & Literature), she worked in strategic planning and marketing at LG, Woori, and Hana. She later studied media art at Konkuk University Graduate School of Immersive AX, and now works as an AI media artist bridging Korean traditional color and contemporary technology."
   },
   "cv": {
     "education": [

@@ -133,13 +133,17 @@ function RecognitionRow({ r }: { r: Recognition }) {
           <Link
             href={`/works/${r.relatedWorkSlug}`}
             aria-label={`${r.title.ko} 관련 작품 보기`}
+            className="font-display"
             style={{
-              fontSize: "var(--text-sm)",
+              fontSize: "var(--text-xs)",
               color: "var(--ink-60)",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
               borderBottom: "1px solid var(--ink-30)",
+              paddingBottom: 1,
             }}
           >
-            →&nbsp;작품
+            View
           </Link>
         ) : null}
         {r.link ? (
