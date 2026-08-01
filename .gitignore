@@ -43,5 +43,13 @@ next-env.d.ts
 # Claude Code local workspace
 /.claude/
 
-# Artist working materials (source drafts — not needed for build)
-/portfolio/
+# Artist working materials (publish only the files index.html references)
+/portfolio/*
+!/portfolio/1 Exhibition_2025.png
+!/portfolio/2 Mentions_2025.png
+!/portfolio/7 아주국제미술대전 우수상_2025.jpg
+!/portfolio/8 AI Master Awards Second Prize_2025.png
+
+# Exhibition photos: exclude originals not shown on the site
+/전시회경력/로하/
+/전시회경력/해신_라포디움공모작가전_로하갤러리_20260109_20260130.png
