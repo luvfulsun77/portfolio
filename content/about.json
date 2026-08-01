@@ -47,6 +47,21 @@
     "groupExhibitions": [
       {
         "year": 2026,
+        "title": "AI ART GROUP Exhibition by Loha",
+        "venue": "로하갤러리"
+      },
+      {
+        "year": 2026,
+        "title": "COLOR THE BEAT V2",
+        "venue": "창동 아우르네, 서울"
+      },
+      {
+        "year": 2026,
+        "title": "생성의 결",
+        "venue": "갤러리 김영모, 성남"
+      },
+      {
+        "year": 2026,
         "title": "Mega 2026",
         "venue": "Biafarin"
       },
