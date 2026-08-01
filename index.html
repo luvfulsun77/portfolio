@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yu.A.Ye — 遊於藝 · Play in Art</title>
+<meta name="description" content="유어예 Yu.A.Ye — AI 미디어 아티스트. 전통적 감각을 현대의 시각 언어로 번역하다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Serif+KR:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4eee1;
+    --paper-soft: #ede5d3;
+    --ink: #171310;
+    --ink-soft: #56504a;
+    --red: #e8302a;
+    --yellow: #ffc219;
+    --blue: #1d6fe0;
+    --green: #2ba84a;
+    --pink: #f25ca2;
+    --purple: #7a4fe0;
+    --serif: "Instrument Serif", "Noto Serif KR", Georgia, serif;
+    --kserif: "Noto Serif KR", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--kserif);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { overflow-x: hidden; }
+  ::selection { background: var(--yellow); color: var(--ink); }
+
+  /* ── Reveal on scroll ─────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ── Nav ──────────────────────────────────────── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 22px 40px;
+    mix-blend-mode: difference;
+    color: var(--paper);
+    pointer-events: none;
+  }
+  .nav a { pointer-events: auto; }
+  .nav .logo {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    text-decoration: none;
+    color: inherit;
+    letter-spacing: 0.02em;
+  }
+  .nav .links {
+    display: flex;
+    gap: 26px;
+  }
+  .nav .links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.85;
+    transition: opacity 0.3s;
+  }
+  .nav .links a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 5px; }
+
+  /* ── Hero ─────────────────────────────────────── */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 620px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .hero canvas { display: block; position: absolute; inset: 0; cursor: crosshair; }
+  .hero .hanja {
+    position: absolute;
+    top: 50%;
+    right: clamp(18px, 4vw, 64px);
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    font-family: var(--kserif);
+    font-weight: 600;
+    font-size: clamp(34px, 5vw, 64px);
+    letter-spacing: 0.55em;
+    color: var(--ink);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hero .hanja em { font-style: normal; color: var(--red); }
+  .hero .tagline {
+    position: absolute;
+    left: clamp(20px, 4vw, 64px);
+    top: 96px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    z-index: 2;
+    pointer-events: none;
+    line-height: 2.1;
+  }
+  .hero .hint {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 2;
+    animation: hint-blink 3.2s ease-in-out infinite;
+  }
+  @keyframes hint-blink { 0%,100% {opacity:.35} 50% {opacity:.85} }
+
+  /* rotating seal */
+  .seal {
+    position: absolute;
+    left: clamp(20px, 4vw, 64px);
+    bottom: 44px;
+    width: 118px;
+    height: 118px;
+    z-index: 2;
+    pointer-events: none;
+    animation: seal-spin 26s linear infinite;
+  }
+  @keyframes seal-spin { to { transform: rotate(360deg); } }
+  .seal text {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.32em;
+    fill: var(--red);
+    text-transform: uppercase;
+  }
+  .seal .core {
+    font-family: var(--kserif);
+    font-size: 34px;
+    font-weight: 600;
+    fill: var(--red);
+  }
+
+  /* ── Marquee ──────────────────────────────────── */
+  .marquee {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    overflow: hidden;
+    background: var(--paper);
+    user-select: none;
+  }
+  .marquee .track {
+    display: flex;
+    width: max-content;
+    animation: marquee 26s linear infinite;
+  }
+  .marquee:hover .track { animation-play-state: paused; }
+  .marquee span {
+    flex: none;
+    padding: 14px 0;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .marquee .chip {
+    display: inline-block;
+    width: 11px; height: 11px;
+    margin: 0 26px;
+    vertical-align: baseline;
+  }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* ── About ────────────────────────────────────── */
+  .about {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 150px 32px 110px;
+    text-align: center;
+  }
+  .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.45em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .about h2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(38px, 6.4vw, 82px);
+    line-height: 1.08;
+    margin-bottom: 60px;
+  }
+  .about h2 .hl {
+    position: relative;
+    white-space: nowrap;
+  }
+  .about h2 .hl::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0.06em;
+    height: 0.14em;
+    background: var(--u, var(--yellow));
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: hl-in 1s 0.4s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes hl-in { to { transform: scaleX(1); } }
+  .about p {
+    font-size: 16.5px;
+    line-height: 2.05;
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 0 auto 16px;
+  }
+  .about p strong { color: var(--ink); font-weight: 600; }
+
+  .chars {
+    display: flex;
+    justify-content: center;
+    gap: clamp(20px, 5vw, 56px);
+    margin: 76px 0 0;
+  }
+  .chars .char {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    cursor: default;
+  }
+  .chars .glyph {
+    width: 92px; height: 92px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--kserif);
+    font-weight: 600;
+    font-size: 40px;
+    transition: background 0.35s, color 0.35s, transform 0.5s cubic-bezier(.3,1.6,.4,1), border-color 0.35s;
+  }
+  .chars .char:hover .glyph {
+    background: var(--c);
+    border-color: var(--c);
+    color: var(--paper);
+    transform: rotate(-8deg) scale(1.08);
+  }
+  .chars .char:nth-child(1) { --c: var(--red); }
+  .chars .char:nth-child(2) { --c: var(--blue); }
+  .chars .char:nth-child(3) { --c: var(--green); }
+  .chars .meaning {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  /* ── Works ────────────────────────────────────── */
+  .works {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 90px 32px 150px;
+  }
+  .works .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 22px;
+    margin-bottom: 74px;
+  }
+  .works h3 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 1;
+  }
+  .works .section-head .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 56px 44px;
+  }
+  .work { cursor: pointer; }
+  .grid .work:nth-child(3n+2) { transform: translateY(46px); }
+  .work .img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: var(--paper-soft);
+    transition: transform 0.55s cubic-bezier(.2,.7,.2,1), box-shadow 0.55s cubic-bezier(.2,.7,.2,1);
+  }
+  .work:nth-of-type(6n+1) { --c: var(--red); }
+  .work:nth-of-type(6n+2) { --c: var(--blue); }
+  .work:nth-of-type(6n+3) { --c: var(--yellow); }
+  .work:nth-of-type(6n+4) { --c: var(--pink); }
+  .work:nth-of-type(6n+5) { --c: var(--green); }
+  .work:nth-of-type(6n+6) { --c: var(--purple); }
+  .work:hover .img-wrap {
+    transform: rotate(-1.4deg) translate(-6px, -6px);
+    box-shadow: 12px 12px 0 var(--c);
+  }
+  .work img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.1s cubic-bezier(.2,.7,.2,1);
+  }
+  .work:hover img { transform: scale(1.05); }
+  .work .play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .work:hover .play { opacity: 1; }
+  .work .play span {
+    padding: 10px 20px;
+    border: 1px solid var(--paper);
+    border-radius: 999px;
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    background: rgba(23,19,16,0.45);
+    backdrop-filter: blur(3px);
+  }
+  .work .info {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 20px 2px 0;
+  }
+  .work .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--c);
+    letter-spacing: 0.1em;
+    flex: none;
+  }
+  .work .title {
+    font-family: var(--serif);
+    font-size: 21px;
+    line-height: 1.25;
+  }
+  .work .year {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+    flex: none;
+  }
+
+  /* ── Dark band: Exhibitions + CV ──────────────── */
+  .dark {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .exhibitions { padding: 130px 0 90px; }
+  .exhibitions .section-head {
+    max-width: 1320px;
+    margin: 0 auto 64px;
+    padding: 0 32px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .exhibitions h3 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 1;
+  }
+  .exhibitions .arrows { display: flex; gap: 10px; }
+  .exhibitions .arrows button {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(244,238,225,0.4);
+    background: none;
+    color: var(--paper);
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s, transform 0.2s;
+  }
+  .exhibitions .arrows button:hover {
+    background: var(--red);
+    border-color: var(--red);
+    transform: scale(1.06);
+  }
+  .ex-rail {
+    display: flex;
+    gap: 36px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding: 0 max(32px, calc((100vw - 1320px) / 2 + 32px)) 30px;
+    scroll-padding-left: max(32px, calc((100vw - 1320px) / 2 + 32px));
+    scrollbar-width: none;
+  }
+  .ex-rail::-webkit-scrollbar { display: none; }
+  .ex-card {
+    flex: none;
+    width: min(66vw, 520px);
+    scroll-snap-align: start;
+  }
+  .ex-card .ex-img {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #221c17;
+  }
+  .ex-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.92);
+    transition: transform 1s cubic-bezier(.2,.7,.2,1), filter 0.6s;
+  }
+  .ex-card:hover img { transform: scale(1.04); filter: saturate(1.05); }
+  .ex-card .ex-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--yellow);
+    margin: 22px 0 8px;
+  }
+  .ex-card .ex-work {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 26px;
+    margin-bottom: 6px;
+  }
+  .ex-card .ex-title {
+    font-size: 14.5px;
+    color: rgba(244,238,225,0.85);
+    margin-bottom: 10px;
+  }
+  .ex-card .ex-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: rgba(244,238,225,0.5);
+    text-transform: uppercase;
+  }
+
+  /* ── CV ───────────────────────────────────────── */
+  .cv {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 40px 32px 130px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+  }
+  .cv-block {
+    border-top: 1px solid rgba(244,238,225,0.25);
+    padding-top: 30px;
+  }
+  .cv-block h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: var(--yellow);
+    margin-bottom: 26px;
+  }
+  .cv-block ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .cv-block li {
+    font-family: var(--kserif);
+    font-size: 17px;
+    color: rgba(244,238,225,0.9);
+  }
+
+  /* ── Footer ───────────────────────────────────── */
+  footer {
+    background: var(--ink);
+    color: var(--paper);
+    border-top: 1px solid rgba(244,238,225,0.18);
+    padding: 110px 32px 70px;
+    text-align: center;
+  }
+  footer .contact-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(244,238,225,0.5);
+    margin-bottom: 30px;
+  }
+  footer .contact-mail {
+    display: inline-block;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(30px, 5.4vw, 64px);
+    color: var(--paper);
+    text-decoration: none;
+    line-height: 1.15;
+    transition: color 0.3s;
+  }
+  footer .contact-mail:hover {
+    background: linear-gradient(90deg, var(--red), var(--yellow), var(--green), var(--blue), var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  footer .contact-insta {
+    display: block;
+    margin-top: 26px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(244,238,225,0.6);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  footer .contact-insta:hover { color: var(--yellow); }
+  footer .copy {
+    margin-top: 70px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(244,238,225,0.35);
+  }
+  footer .copy .dot { color: var(--red); }
+
+  /* ── Lightbox ─────────────────────────────────── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(14,11,9,0.94);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 5vh 5vw;
+    backdrop-filter: blur(8px);
+  }
+  .lightbox.open { display: flex; }
+  .lightbox .lb-inner {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .lightbox img,
+  .lightbox video {
+    max-width: 90vw;
+    max-height: 78vh;
+    object-fit: contain;
+    display: block;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .lightbox iframe {
+    width: min(90vw, 1280px);
+    aspect-ratio: 16 / 9;
+    max-height: 78vh;
+    border: 0;
+    display: block;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .lightbox .lb-caption {
+    color: var(--paper);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 21px;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .lightbox .lb-caption .yr {
+    display: block;
+    font-style: normal;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: rgba(244,238,225,0.5);
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .lightbox .close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    background: none;
+    border: none;
+    color: var(--paper);
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 10px;
+    transition: transform 0.3s, color 0.3s;
+  }
+  .lightbox .close:hover { color: var(--yellow); transform: rotate(90deg); }
+
+  /* ── Responsive ───────────────────────────────── */
+  @media (max-width: 900px) {
+    .nav { padding: 16px 16px; }
+    .nav .logo { font-size: 19px; }
+    .nav .links { gap: 10px; }
+    .nav .links a { font-size: 9px; letter-spacing: 0.08em; }
+    .grid { grid-template-columns: 1fr; gap: 52px; }
+    .grid .work:nth-child(3n+2) { transform: none; }
+    .cv { grid-template-columns: 1fr; }
+    .hero .tagline { top: 80px; }
+    .hero .hanja {
+      top: 88px;
+      right: 20px;
+      transform: none;
+      font-size: 24px;
+      letter-spacing: 0.4em;
+    }
+    .seal { width: 92px; height: 92px; bottom: 78px; }
+    .ex-card { width: 82vw; }
+    .works .section-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .works .section-head .meta { white-space: normal; }
+    .chars .glyph { width: 72px; height: 72px; font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="logo" href="#top">Yu.A.Ye</a>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#works">Works</a>
+    <a href="#exhibitions">Exhibitions</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <canvas id="hero-canvas"></canvas>
+  <div class="tagline">
+    AI · Media Artist<br>
+    Seoul, Korea
+  </div>
+  <div class="hanja">遊於<em>藝</em></div>
+  <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+    <defs>
+      <path id="seal-circ" d="M 60,60 m -47,0 a 47,47 0 1,1 94,0 a 47,47 0 1,1 -94,0"/>
+    </defs>
+    <text><textPath href="#seal-circ">Yu.A.Ye · Play in Art · 유어예 ·&#160;</textPath></text>
+    <text class="core" x="60" y="72" text-anchor="middle">藝</text>
+  </svg>
+  <div class="hint">move · click to scatter</div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track" id="marquee-track"></div>
+</div>
+
+<section class="about" id="about">
+  <div class="label reveal">About the Artist</div>
+  <h2 class="reveal">"I believe that <span class="hl" style="--u:var(--yellow)">divinity</span><br>dwells in <span class="hl" style="--u:var(--pink)">all things</span>."</h2>
+  <p class="reveal"><strong>색동의 유희, 오방색의 깊이, 자개의 은은한 광택</strong>을 통해<br>인간과 자연, 기술이 하나로 흐르는 일체성을 표현한다.</p>
+  <p class="reveal">알고리즘 안에도, 데이터의 흐름 안에도, 화면이 내뿜는 빛 안에도 신성은 깃들어 있다.<br>기술은 자연의 또 다른 얼굴이며, <strong>코드는 또 하나의 기도문</strong>이다.</p>
+  <p class="reveal">나의 작업에서 색은 조용한 기도가 되고, 빛은 기억으로 남는다.</p>
+  <p class="reveal">전통적 감각을 현대의 시각 언어로 번역하며, 일상 속에 숨겨진 신성을 드러낸다.</p>
+
+  <div class="chars reveal">
+    <div class="char"><div class="glyph">遊</div><div class="meaning">Play</div></div>
+    <div class="char"><div class="glyph">於</div><div class="meaning">In</div></div>
+    <div class="char"><div class="glyph">藝</div><div class="meaning">Art</div></div>
+  </div>
+</section>
+
+<section class="works" id="works">
+  <div class="section-head reveal">
+    <h3>Selected Works</h3>
+    <div class="meta" id="works-count"></div>
+  </div>
+  <div class="grid" id="works-grid"></div>
+</section>
+
+<div class="dark">
+  <section class="exhibitions" id="exhibitions">
+    <div class="section-head reveal">
+      <h3>Exhibitions</h3>
+      <div class="arrows">
+        <button id="ex-prev" aria-label="Previous">←</button>
+        <button id="ex-next" aria-label="Next">→</button>
+      </div>
+    </div>
+    <div class="ex-rail" id="ex-rail"></div>
+  </section>
+
+  <section class="cv">
+    <div class="cv-block reveal">
+      <h4>Education</h4>
+      <ul>
+        <li>연세대학교 · 영어영문학과</li>
+        <li>건국대학교 · 실감 AX 대학원</li>
+      </ul>
+    </div>
+    <div class="cv-block reveal">
+      <h4>Experience</h4>
+      <ul>
+        <li>LG** · 전략기획팀, IR팀</li>
+        <li>우리** · VIP 마케팅팀</li>
+        <li>하나** · 전략기획팀</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-inner">
+    <button class="close" id="lb-close" aria-label="Close">×</button>
+    <div id="lb-media"></div>
+    <div class="lb-caption" id="lb-caption"></div>
+  </div>
+</div>
+
+<footer id="contact">
+  <div class="contact-label">Contact</div>
+  <a class="contact-mail" href="mailto:luvfulsun@gmail.com">luvfulsun@gmail.com</a>
+  <a class="contact-insta" href="https://instagram.com/yuayera" target="_blank" rel="noopener">Instagram · @yuayera</a>
+  <div class="copy">© 2026 Yu.A.Ye <span class="dot">●</span> Seoul <span class="dot">●</span> 遊於藝</div>
+</footer>
+
+<script>
+/* ============================================================
+   Yu.A.Ye — Color-chip particle name
+   Each particle is a small color block (색동 chip) in the vivid
+   palette of the artist's work. Chips form "Yu.A.Ye", scatter
+   from the cursor, and burst on click.
+   ============================================================ */
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+const chipColors = ['#e8302a', '#ffc219', '#1d6fe0', '#2ba84a', '#f25ca2', '#7a4fe0', '#ff7a1a', '#171310'];
+
+const hero = canvas.parentElement;
+function resize() {
+  W = hero.clientWidth;
+  H = hero.clientHeight;
+  canvas.width = W * DPR;
+  canvas.height = H * DPR;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  if (particles.length) initParticles();
+}
+
+let mouse = { x: -9999, y: -9999, radius: 130 };
+window.addEventListener('mousemove', e => {
+  const r = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - r.left;
+  mouse.y = e.clientY - r.top;
+});
+window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+/* touch support — finger drag scatters chips like the cursor does */
+canvas.addEventListener('touchmove', e => {
+  const r = canvas.getBoundingClientRect();
+  const t = e.touches[0];
+  mouse.x = t.clientX - r.left;
+  mouse.y = t.clientY - r.top;
+}, { passive: true });
+canvas.addEventListener('touchend', () => { mouse.x = -9999; mouse.y = -9999; });
+canvas.addEventListener('click', () => {
+  particles.forEach(p => {
+    const a = Math.random() * Math.PI * 2;
+    const f = 14 + Math.random() * 26;
+    p.vx += Math.cos(a) * f;
+    p.vy += Math.sin(a) * f;
+    p.rotSpeed = (Math.random() - 0.5) * 0.3;
+  });
+});
+
+let chipScale = 1;
+function getTextPoints(text) {
+  const off = document.createElement('canvas');
+  const octx = off.getContext('2d');
+  off.width = W; off.height = H;
+  /* size the font so the text always fits with a safe margin on both sides */
+  let fontSize = Math.min(W * 0.2, H * 0.36);
+  octx.font = `900 ${fontSize}px Georgia, serif`;
+  const maxWidth = W * 0.84;
+  const measured = octx.measureText(text).width;
+  if (measured > maxWidth) {
+    fontSize *= maxWidth / measured;
+    octx.font = `900 ${fontSize}px Georgia, serif`;
+  }
+  chipScale = Math.max(0.45, Math.min(1, fontSize / 300));
+  octx.textAlign = 'center';
+  octx.textBaseline = 'middle';
+  octx.fillStyle = '#fff';
+  octx.fillText(text, W / 2, H / 2);
+  const data = octx.getImageData(0, 0, W, H).data;
+  const points = [];
+  const gap = Math.max(6, Math.floor(fontSize / 22));
+  for (let y = 0; y < H; y += gap) {
+    for (let x = 0; x < W; x += gap) {
+      if (data[(y * W + x) * 4 + 3] > 128) points.push({ x, y });
+    }
+  }
+  return points;
+}
+
+class Chip {
+  constructor(tx, ty) {
+    this.tx = tx; this.ty = ty;
+    this.x = W / 2 + (Math.random() - 0.5) * W * 1.4;
+    this.y = H / 2 + (Math.random() - 0.5) * H * 1.4;
+    this.vx = 0; this.vy = 0;
+    this.color = chipColors[Math.floor(Math.random() * chipColors.length)];
+    this.w = (5 + Math.random() * 6) * chipScale;
+    this.h = this.w * (0.55 + Math.random() * 0.7);
+    this.rot = Math.random() * Math.PI * 2;
+    this.rotSpeed = (Math.random() - 0.5) * 0.02;
+    this.friction = 0.85 + Math.random() * 0.05;
+    this.spring = 0.02 + Math.random() * 0.02;
+  }
+  update() {
+    this.vx += (this.tx - this.x) * this.spring;
+    this.vy += (this.ty - this.y) * this.spring;
+    const mx = this.x - mouse.x;
+    const my = this.y - mouse.y;
+    const dist = Math.hypot(mx, my);
+    if (dist < mouse.radius && dist > 0) {
+      const force = (mouse.radius - dist) / mouse.radius;
+      this.vx += (mx / dist) * force * 8;
+      this.vy += (my / dist) * force * 8;
+      this.rotSpeed += (Math.random() - 0.5) * 0.02;
+    }
+    this.vx *= this.friction;
+    this.vy *= this.friction;
+    this.x += this.vx;
+    this.y += this.vy;
+    this.rot += this.rotSpeed;
+    this.rotSpeed *= 0.985;
+  }
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rot);
+    ctx.fillStyle = this.color;
+    ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+    ctx.restore();
+  }
+}
+
+let particles = [];
+function initParticles() {
+  const points = getTextPoints('Yu.A.Ye');
+  const old = particles;
+  particles = points.map((p, i) => {
+    const np = new Chip(p.x, p.y);
+    if (old[i]) { np.x = old[i].x; np.y = old[i].y; np.vx = old[i].vx; np.vy = old[i].vy; }
+    return np;
+  });
+}
+
+/* drifting confetti chips in the background */
+const confetti = [];
+for (let i = 0; i < 26; i++) {
+  confetti.push({
+    x: Math.random(), y: Math.random(),
+    w: 4 + Math.random() * 7,
+    color: chipColors[Math.floor(Math.random() * chipColors.length)],
+    rot: Math.random() * Math.PI * 2,
+    rotSpeed: (Math.random() - 0.5) * 0.01,
+    speed: 0.0004 + Math.random() * 0.0009,
+    drift: (Math.random() - 0.5) * 0.0004,
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, W, H);
+  confetti.forEach(p => {
+    p.y += p.speed;
+    p.x += p.drift;
+    p.rot += p.rotSpeed;
+    if (p.y > 1.05) { p.y = -0.05; p.x = Math.random(); }
+    ctx.save();
+    ctx.globalAlpha = 0.38;
+    ctx.translate(p.x * W, p.y * H);
+    ctx.rotate(p.rot);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.w / 2, -p.w / 2, p.w, p.w * 0.72);
+    ctx.restore();
+  });
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+
+resize();
+window.addEventListener('resize', resize);
+/* also rebuild when the hero itself changes size (scrollbar appearing, mobile URL bar, etc.) */
+new ResizeObserver(() => {
+  if (Math.abs(hero.clientWidth - W) > 1 || Math.abs(hero.clientHeight - H) > 1) resize();
+}).observe(hero);
+initParticles();
+requestAnimationFrame(animate);
+if ('ontouchstart' in window) {
+  document.querySelector('.hero .hint').textContent = 'drag · tap to scatter';
+}
+
+/* ============================================================
+   Marquee
+   ============================================================ */
+(function buildMarquee() {
+  const track = document.getElementById('marquee-track');
+  const chips = ['#e8302a', '#1d6fe0', '#ffc219', '#2ba84a', '#f25ca2', '#7a4fe0'];
+  let html = '';
+  for (let i = 0; i < 2; i++) {
+    html += '<span>';
+    ['예술에서 놀다', 'Play in Art', '遊於藝', 'Yu.A.Ye', 'AI Media Art', 'Seoul'].forEach((t, j) => {
+      html += t + '<i class="chip" style="background:' + chips[j % chips.length] + '"></i>';
+    });
+    html += '</span>';
+  }
+  track.innerHTML = html;
+})();
+
+/* ============================================================
+   Selected Works — auto-built from the portfolio/ folder.
+   ============================================================ */
+const works = [
+  { title: 'Exhibitions',                                year: '2025', file: '1 Exhibition_2025.png',                                  type: 'image' },
+  { title: 'Mentions',                                    year: '2025', file: '2 Mentions_2025.png',                                    type: 'image' },
+  { title: '토탈미술관 독일 P61 AI 해커톤',                year: '2026', youtube: 'X1VHoLKsTgA' },
+  { title: '광화문 미디어 파사드 국제 공모 금상',           year: '2025', youtube: 'TqqNl0VI1-s' },
+  { title: '서울로미디어캔버스 — 서울의 사계',              year: '2025', youtube: 'VmYNR79CrsU' },
+  { title: 'Looping in the Box',                          year: '2025', youtube: 'MaNXKLnK-x8' },
+  { title: '우리미디콘 우수상',                            year: '2025', youtube: 's-FjlB0A-pU' },
+  { title: '아주국제미술대전 우수상',                       year: '2025', file: '7 아주국제미술대전 우수상_2025.jpg',                      type: 'image' },
+  { title: 'AI Master Awards — Second Prize',             year: '2025', file: '8 AI Master Awards Second Prize_2025.png',                type: 'image' },
+  { title: '매경 AI공모전 삼성증권 우수상 (팀 둥글게)', year: '2025', youtube: 'R9q7Xx59N7s' },
+  { title: 'AINUS 광고 공모전 우수상',                     year: '2025', youtube: 'WnKIVY5hxMY' },
+  { title: '조달청 홍보영상 참가상',                        year: '2025', youtube: 'SMoibnYs8_M' },
+  { title: '광명시 평화주간 AI 영상공모전 입선',            year: '2025', youtube: 'qH7DGD5TPoI' },
+  { title: 'G Sound 30 입상',                              year: '2025', youtube: 'ztVIFg8JmOk' },
+  { title: 'KBS AI 전시 공모',                              year: '2025', youtube: 'ktxNXtMmKew' },
+  { title: 'YTN 숏폼 공모전 우수상',                        year: '2025', youtube: 'a1aiKUk1A3Y' },
+  { title: '노상치킨 광고 공모전 우수상',                    year: '2025', youtube: 'Q_kurRshUZE' },
+  { title: 'GMAFF Finalist',                               year: '2025', youtube: 'czBJPm91XaI' },
+];
+
+(function buildGrid() {
+  const grid = document.getElementById('works-grid');
+  document.getElementById('works-count').textContent = String(works.length).padStart(2, '0') + ' Works · 2025 — 2026';
+
+  works.forEach((w, i) => {
+    const article = document.createElement('article');
+    article.className = 'work reveal';
+    article.dataset.title = w.title;
+    article.dataset.year = w.year || '';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'img-wrap';
+
+    if (w.youtube) {
+      article.dataset.youtube = w.youtube;
+      const img = document.createElement('img');
+      img.src = 'https://img.youtube.com/vi/' + w.youtube + '/hqdefault.jpg';
+      img.alt = w.title;
+      img.loading = 'lazy';
+      wrap.appendChild(img);
+      const play = document.createElement('div');
+      play.className = 'play';
+      play.innerHTML = '<span>▶ Play</span>';
+      wrap.appendChild(play);
+    } else {
+      const path = 'portfolio/' + w.file;
+      article.dataset.src = path;
+      const img = document.createElement('img');
+      img.src = path;
+      img.alt = w.title;
+      img.loading = 'lazy';
+      wrap.appendChild(img);
+      const play = document.createElement('div');
+      play.className = 'play';
+      play.innerHTML = '<span>View</span>';
+      wrap.appendChild(play);
+    }
+    article.appendChild(wrap);
+
+    const info = document.createElement('div');
+    info.className = 'info';
+    info.innerHTML =
+      '<div class="num">№' + String(i + 1).padStart(2, '0') + '</div>' +
+      '<div class="title">' + w.title + '</div>' +
+      '<div class="year">' + (w.year || '') + '</div>';
+    article.appendChild(info);
+
+    grid.appendChild(article);
+  });
+})();
+
+/* ============================================================
+   Exhibitions — horizontal rail with snap + arrows
+   ============================================================ */
+const exhibitions = [
+  { work: '전시 전경',                   title: 'AI ART GROUP Exhibition',      venue: '엠아트센터 7전시관, 서울 (로하갤러리 주최)', date: '2026.07.06 — 07.31', file: 'AI ART GROUP Exhibition by Loha_20260705~20260731.jpg' },
+  { work: '전시 소개',                   title: 'AI ART GROUP Exhibition',      venue: '엠아트센터 7전시관, 서울 (로하갤러리 주최)', date: '2026.07.06 — 07.31', file: 'AI ART GROUP Exhibition by Loha_20260705~20260731 (1).jpg' },
+  { work: '전시 포스터',                 title: 'COLOR THE BEAT V2',            venue: '창동 아우르네, 서울',                    date: '2026.06.20',         file: 'Color the beat V2.png' },
+  { work: '공연 실황',                   title: 'COLOR THE BEAT V2',            venue: '창동 아우르네, 서울',                    date: '2026.06.20',         file: 'Color the beat V2(1).jpg' },
+  { work: '전시 포스터',                 title: '생성의 결',                    venue: '갤러리 김영모, 성남',                    date: '2026.06.06 — 07.05', file: '생성의 결_20260606~20260705.jpg' },
+  { work: '전시 전경',                   title: '생성의 결',                    venue: '갤러리 김영모, 성남',                    date: '2026.06.06 — 07.05', file: '생성의 결_20260606~20260705(1).jpg' },
+  { work: 'cache',                      title: '라포디움 선정작가전',           venue: '로하갤러리',                           date: '2026.02.26 — 02.27', file: 'cache_라포디움선정작가전_로하갤러리_20260226_20260227.png' },
+  { work: 'Echo of the Self',           title: 'Looping in the Box',           venue: '아트코리아랩',                          date: '2026.01.19',         file: 'Echo of the self_looping in the box_아트코리아랩_20260119.jpg' },
+  { work: '십장생도',                    title: '아주국제미술대전',             venue: '중국 랴오청 · 서울 인사동 하나아트갤러리', date: '2026.01.15 — 01.26', file: '십장생도_아주국제미술대전_중국랴오청.서울인사동하나아트갤러리_20260115_20260126.jpg' },
+  { work: '해신',                        title: '라포디움 공모작가전',          venue: '로하갤러리',                           date: '2026.01.09 — 01.30', file: '해신_라포디움공모작가전_로하갤러리_20260109_20260130.png' },
+  { work: '모란도',                      title: '한국적 프로젝트',              venue: '아트코리아랩',                          date: '2025.12.26',         file: '모란도_한국적프로젝트_아트코리아랩_20251226.png' },
+  { work: 'Wave Beyond the Windows',    title: '부산디자인협회',               venue: '부산디자인협회',                        date: '2025.12.20 — 12.31', file: 'wave beyond the windows_부산디자인협회_20251220_20251231.jpg' },
+  { work: '파랑새는 어디 있을까',         title: '한옥에서 만나는 겨울 동화전',    venue: '리수갤러리',                            date: '2025.11.20 — 11.25', file: '파랑새는 어디 있을까_한옥에서 만나는 겨울 동화전_리수갤러리_20251125_20251120.jpg' },
+  { work: 'Echo of the Self',           title: 'I & AI — 나를 만나다',         venue: 'KBS',                                   date: '2025.07.25 — 08.15', file: 'Echo of the self_I & AI 나를 만나다_KBS_20250725_20250815.jpg' },
+  { work: '디지털산수',                  title: 'You and AI',                  venue: '강원디자인협회',                        date: '2025.07.04 — 07.10', file: '디지털산수_You and AI_강원디자인협회_20250704_20250710.png' },
+];
+
+(function buildExhibitions() {
+  const rail = document.getElementById('ex-rail');
+  exhibitions.forEach((e, i) => {
+    const card = document.createElement('div');
+    card.className = 'ex-card reveal';
+    card.innerHTML =
+      '<div class="ex-img"><img src="전시회경력/' + encodeURIComponent(e.file) + '" alt="' + e.work + '" loading="lazy"></div>' +
+      '<div class="ex-num">' + String(i + 1).padStart(2, '0') + ' / ' + String(exhibitions.length).padStart(2, '0') + '</div>' +
+      '<div class="ex-work">' + e.work + '</div>' +
+      '<div class="ex-title">' + e.title + '</div>' +
+      '<div class="ex-meta">' + e.venue + ' · ' + e.date + '</div>';
+    rail.appendChild(card);
+  });
+
+  const step = () => Math.min(rail.clientWidth * 0.7, 556);
+  document.getElementById('ex-prev').addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+  document.getElementById('ex-next').addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
+})();
+
+/* ============================================================
+   Lightbox
+   ============================================================ */
+(function() {
+  const lb = document.getElementById('lightbox');
+  const media = document.getElementById('lb-media');
+  const caption = document.getElementById('lb-caption');
+  const closeBtn = document.getElementById('lb-close');
+
+  function open(work) {
+    const youtube = work.dataset.youtube;
+    const src = work.dataset.src;
+    const title = work.dataset.title || '';
+    const year = work.dataset.year || '';
+    media.innerHTML = '';
+    if (youtube) {
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube.com/embed/' + youtube + '?autoplay=1&rel=0';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+      iframe.allowFullscreen = true;
+      media.appendChild(iframe);
+    } else {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = title;
+      media.appendChild(img);
+    }
+    caption.innerHTML = title + (year ? '<span class="yr">' + year + '</span>' : '');
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.classList.remove('open');
+    media.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.work').forEach(w => {
+    w.addEventListener('click', () => open(w));
+  });
+  closeBtn.addEventListener('click', close);
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+
+/* ============================================================
+   Scroll reveal
+   ============================================================ */
+(function() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>
