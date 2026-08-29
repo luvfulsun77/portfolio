@@ -387,6 +387,17 @@
     font-size: 21px;
     line-height: 1.25;
   }
+  .work .title .note {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
   .work .year {
     margin-left: auto;
     font-family: var(--mono);
@@ -1071,6 +1082,8 @@ if ('ontouchstart' in window) {
 const works = [
   { title: 'Exhibitions',                                year: '2025', file: '1 Exhibition_2025.png',                                  type: 'image' },
   { title: 'Mentions',                                    year: '2025', file: '2 Mentions_2025.png',                                    type: 'image' },
+  { title: '생성된 낙원: Metamorphosis — First PhotoBook', year: '2026', file: '9 생성된낙원 Photobook_2026.jpg', type: 'image',
+    note: '구매 가능 · Available for purchase', link: 'mailto:luvfulsun@gmail.com?subject=' + encodeURIComponent('포토북 《생성된 낙원: Metamorphosis》 구매 문의') },
   { title: '토탈미술관 독일 P61 AI 해커톤',                year: '2026', youtube: 'X1VHoLKsTgA' },
   { title: '꿈꾸는 아리랑 공모전 장려상',                   year: '2026', youtube: 'OYjGBjxa3ww' },
   { title: '광화문 미디어 파사드 국제 공모 금상',           year: '2025', youtube: 'TqqNl0VI1-s' },
@@ -1133,7 +1146,9 @@ const works = [
     info.className = 'info';
     info.innerHTML =
       '<div class="num">№' + String(i + 1).padStart(2, '0') + '</div>' +
-      '<div class="title">' + w.title + '</div>' +
+      '<div class="title">' + w.title +
+        (w.note ? '<a class="note" href="' + w.link + '" onclick="event.stopPropagation()">' + w.note + '</a>' : '') +
+      '</div>' +
       '<div class="year">' + (w.year || '') + '</div>';
     article.appendChild(info);
 
@@ -1145,7 +1160,8 @@ const works = [
    Exhibitions — horizontal rail with snap + arrows
    ============================================================ */
 const exhibitions = [
-  { work: '전시 전경',                   title: 'AI ART GROUP Exhibition',      venue: '엠아트센터 7전시관, 서울 (로하갤러리 주최)', date: '2026.07.06 — 07.31', file: 'AI ART GROUP Exhibition by Loha_20260705~20260731.jpg' },
+  { work: '생성된 낙원',                 title: '제33회 한국미술국제공모대전 · 우수상', venue: '용산아트홀, 서울',                   date: '2026.08.19 — 08.25', file: '생성된낙원_한국미술국제공모대전_용산아트홀_20260819_20260825.jpg' },
+  { work: '우수상 상장',                 title: '제33회 한국미술국제공모대전 · 우수상', venue: '용산아트홀, 서울',                   date: '2026.08.19 — 08.25', file: '생성된낙원_한국미술국제공모대전_상장_20260820.jpg' },  { work: '전시 전경',                   title: 'AI ART GROUP Exhibition',      venue: '엠아트센터 7전시관, 서울 (로하갤러리 주최)', date: '2026.07.06 — 07.31', file: 'AI ART GROUP Exhibition by Loha_20260705~20260731.jpg' },
   { work: '전시 소개',                   title: 'AI ART GROUP Exhibition',      venue: '엠아트센터 7전시관, 서울 (로하갤러리 주최)', date: '2026.07.06 — 07.31', file: 'AI ART GROUP Exhibition by Loha_20260705~20260731 (1).jpg' },
   { work: '전시 포스터',                 title: 'COLOR THE BEAT V2',            venue: '창동 아우르네, 서울',                    date: '2026.06.20',         file: 'Color the beat V2.png' },
   { work: '공연 실황',                   title: 'COLOR THE BEAT V2',            venue: '창동 아우르네, 서울',                    date: '2026.06.20',         file: 'Color the beat V2(1).jpg' },
