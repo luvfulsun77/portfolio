@@ -433,10 +433,10 @@
     background: var(--ink);
     color: var(--paper);
   }
-  .exhibitions { padding: 130px 0 90px; }
+  .exhibitions { padding: 80px 0 60px; }
   .exhibitions .section-head {
     max-width: 1320px;
-    margin: 0 auto 64px;
+    margin: 0 auto 36px;
     padding: 0 32px;
     display: flex;
     align-items: baseline;
@@ -466,26 +466,48 @@
     border-color: var(--red);
     transform: scale(1.06);
   }
-  .ex-rail {
-    display: flex;
-    gap: 36px;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    padding: 0 max(32px, calc((100vw - 1320px) / 2 + 32px)) 30px;
-    scroll-padding-left: max(32px, calc((100vw - 1320px) / 2 + 32px));
-    scrollbar-width: none;
+  /* card height sized so header + 3 rows fit one screen */
+  .ex-rows {
+    --exh: clamp(140px, calc((100vh - 240px) / 3), 260px);
+    display: flex; flex-direction: column; gap: 18px;
   }
-  .ex-rail::-webkit-scrollbar { display: none; }
+  .ex-row { overflow: hidden; }
+  .ex-track {
+    display: flex;
+    gap: 18px;
+    width: max-content;
+    padding-right: 18px;
+    animation: ex-left var(--dur, 60s) linear infinite;
+  }
+  .ex-row.right .ex-track { animation-name: ex-right; }
+  .ex-row:hover .ex-track { animation-play-state: paused; }
+  @keyframes ex-left  { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
+  @keyframes ex-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .ex-track { animation: none; }
+    .ex-row { overflow-x: auto; }
+  }
   .ex-card {
     flex: none;
-    width: min(66vw, 520px);
-    scroll-snap-align: start;
+    position: relative;
+    height: var(--exh);
+    aspect-ratio: 4 / 3;
   }
   .ex-card .ex-img {
-    aspect-ratio: 4 / 3;
+    height: 100%;
     overflow: hidden;
     background: #221c17;
   }
+  .ex-card .ex-cap {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 12px 14px;
+    background: rgba(26,22,18,0.82);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .ex-card:hover .ex-cap { opacity: 1; }
   .ex-card img {
     width: 100%; height: 100%;
     object-fit: cover;
@@ -495,27 +517,20 @@
   }
   .ex-card:hover img { transform: scale(1.04); filter: saturate(1.05); }
   .ex-card .ex-img.contain img { object-fit: contain; }
-  .ex-card .ex-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.25em;
-    color: var(--yellow);
-    margin: 22px 0 8px;
-  }
   .ex-card .ex-work {
     font-family: var(--serif);
     font-style: italic;
-    font-size: 26px;
-    margin-bottom: 6px;
+    font-size: 17px;
+    margin-bottom: 2px;
   }
   .ex-card .ex-title {
-    font-size: 14.5px;
+    font-size: 12px;
     color: rgba(244,238,225,0.85);
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
   .ex-card .ex-meta {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.16em;
     color: rgba(244,238,225,0.5);
     text-transform: uppercase;
@@ -762,7 +777,6 @@
       letter-spacing: 0.4em;
     }
     .seal { width: 92px; height: 92px; bottom: 78px; }
-    .ex-card { width: 82vw; }
     .works .section-head {
       flex-direction: column;
       align-items: flex-start;
@@ -837,12 +851,8 @@
   <section class="exhibitions" id="exhibitions">
     <div class="section-head reveal">
       <h3>Exhibitions</h3>
-      <div class="arrows">
-        <button id="ex-prev" aria-label="Previous">←</button>
-        <button id="ex-next" aria-label="Next">→</button>
-      </div>
     </div>
-    <div class="ex-rail" id="ex-rail"></div>
+    <div class="ex-rows" id="ex-rows"></div>
   </section>
 
   <section class="press" id="press">
@@ -1110,6 +1120,7 @@ const works = [
   { title: 'SEOUL: Generated Landscape — 서울, 생성된 풍경 (PhotoBook)', year: '2026', file: '9 생성된낙원 Photobook_2026.jpg', type: 'image',
     note: '구매 가능 · Available for purchase', link: 'mailto:luvfulsun@gmail.com?subject=' + encodeURIComponent('포토북 《SEOUL: Generated Landscape》 구매 문의') },
   { title: 'ARTBAM SEOUL 2026 장려상 (AI 분야)',           year: '2026', file: '11 ARTBAM SEOUL 장려상_2026.jpg',                     type: 'image' },
+  { title: '코비(Coby) × 유어예 — 스며들자 M/V (OPCD COLOR THE BEAT V2)', year: '2026.07', youtube: 'tHmdo1jaVWc' },
   { title: '토탈미술관 독일 P61 AI 해커톤',                year: '2026', youtube: 'X1VHoLKsTgA' },
   { title: '제33회 한국미술국제공모대전 우수상',              year: '2026', file: '10 한국미술국제공모대전 우수상_2026.jpg',              type: 'image' },
   { title: '꿈꾸는 아리랑 공모전 장려상',                   year: '2026', youtube: 'OYjGBjxa3ww' },
@@ -1213,22 +1224,39 @@ const exhibitions = [
 ];
 
 (function buildExhibitions() {
-  const rail = document.getElementById('ex-rail');
-  exhibitions.forEach((e, i) => {
-    const card = document.createElement('div');
-    card.className = 'ex-card reveal';
-    card.innerHTML =
-      '<div class="ex-img' + (e.fit === 'contain' ? ' contain' : '') + '"><img src="전시회경력/' + encodeURIComponent(e.file) + '" alt="' + e.work + '" loading="lazy"></div>' +
-      '<div class="ex-num">' + String(i + 1).padStart(2, '0') + ' / ' + String(exhibitions.length).padStart(2, '0') + '</div>' +
-      '<div class="ex-work">' + e.work + '</div>' +
-      '<div class="ex-title">' + e.title + '</div>' +
-      '<div class="ex-meta">' + e.venue + ' · ' + e.date + '</div>';
-    rail.appendChild(card);
+  // 3 rows: top → left, middle → right, bottom → left
+  const wrap = document.getElementById('ex-rows');
+  const rows = [[], [], []];
+  exhibitions.forEach((e, i) => rows[i % 3].push(e));
+
+  const cardHTML = (e, dup) =>
+    '<div class="ex-card"' + (dup ? ' aria-hidden="true"' : '') + '>' +
+      '<div class="ex-img' + (e.fit === 'contain' ? ' contain' : '') + '"><img src="전시회경력/' + encodeURIComponent(e.file) + '" alt="' + (dup ? '' : e.work) + '" loading="lazy"></div>' +
+      '<div class="ex-cap">' +
+        '<div class="ex-work">' + e.work + '</div>' +
+        '<div class="ex-title">' + e.title + '</div>' +
+        '<div class="ex-meta">' + e.venue + ' · ' + e.date + '</div>' +
+      '</div>' +
+    '</div>';
+
+  rows.forEach((items, r) => {
+    const row = document.createElement('div');
+    row.className = 'ex-row reveal' + (r === 1 ? ' right' : '');
+    // track holds the set twice so translateX(-50%) loops seamlessly
+    row.innerHTML = '<div class="ex-track">' +
+      items.map(e => cardHTML(e, false)).join('') +
+      items.map(e => cardHTML(e, true)).join('') +
+    '</div>';
+    wrap.appendChild(row);
   });
 
-  const step = () => Math.min(rail.clientWidth * 0.7, 556);
-  document.getElementById('ex-prev').addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
-  document.getElementById('ex-next').addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
+  // constant pixel speed regardless of card size
+  const PX_PER_SEC = 52;
+  const setSpeed = () => wrap.querySelectorAll('.ex-track').forEach(t => {
+    t.style.setProperty('--dur', (t.scrollWidth / 2 / PX_PER_SEC) + 's');
+  });
+  setSpeed();
+  window.addEventListener('resize', setSpeed);
 })();
 
 /* ============================================================
